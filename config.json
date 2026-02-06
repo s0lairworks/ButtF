@@ -1,0 +1,189 @@
+{
+  "scan_config": {
+    "default_timeout": 10,
+    "default_threads": 10,
+    "max_retries": 3,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+  },
+  "modules": {
+    "misconfig": {
+      "enabled": true,
+      "custom_paths": [
+        "/.gitlab-ci.yml",
+        "/docker-compose.yml",
+        "/kubernetes.yaml",
+        "/.dockerignore",
+        "/.env",
+        "/.git/config",
+        "/backup.zip",
+        "/config.php.bak"
+      ],
+      "header_checks": {
+        "x_content_type_options": true,
+        "x_frame_options": true,
+        "strict_transport_security": true,
+        "content_security_policy": true,
+        "referrer_policy": true,
+        "permissions_policy": true
+      }
+    },
+    "logic": {
+      "enabled": true,
+      "test_idor": true,
+      "test_mass_assignment": true,
+      "test_workflow_bypass": true,
+      "test_unprotected_endpoints": true,
+      "test_sensitive_method_access": true,
+      "session_fixation_checks": true,
+      "permission_drift_checks": true,
+      "idor_endpoints": [
+        "/api/user/{id}",
+        "/api/order/{id}",
+        "/api/document/{id}"
+      ]
+    },
+    "cve": {
+      "enabled": true,
+      "custom_signatures": {
+        "CVE-EXPOSED_ADMIN_UI": {
+          "pattern": "admin dashboard",
+          "version": "any",
+          "description": "Content indicates an exposed administrative interface"
+        },
+        "CVE-DEBUG_MODE": {
+          "pattern": "debug=true",
+          "version": "any",
+          "description": "Debug mode enabled in production responses"
+        },
+        "CVE-UNSAFE_CORS": {
+          "pattern": "Access-Control-Allow-Origin: \\*",
+          "version": "any",
+          "description": "Wildcard CORS with potential credential leakage"
+        },
+        "CVE-CREDENTIALS_WITH_CORS": {
+          "pattern": "Access-Control-Allow-Credentials: true",
+          "version": "any",
+          "description": "CORS credentials allowed without strict origin validation"
+        },
+        "CVE-MISSING_VARY_ORIGIN": {
+          "pattern": "Vary: Origin",
+          "version": "any",
+          "description": "Missing Vary: Origin header — caching risk with dynamic CORS"
+        },
+        "CVE-MISSING_SECURE_HEADERS": {
+          "pattern": "Strict-Transport-Security|X-Content-Type-Options|X-Frame-Options",
+          "version": "any",
+          "description": "Critical security headers missing"
+        }
+      }
+    },
+    "auth": {
+      "enabled": true,
+      "test_jwt": true,
+      "test_session": true,
+      "test_password_policy": true,
+      "weak_passwords": [
+        "password",
+        "123456",
+        "admin",
+        "12345678",
+        "12345",
+        "P@ssw0rd",
+        "qwerty",
+        "111111",
+        "iloveyou",
+        "welcome",
+        "test123",
+        "user",
+        "monkey"
+      ]
+    },
+    "injection": {
+      "enabled": true,
+      "test_sql": true,
+      "test_command": true,
+      "test_xss": true,
+      "custom_sql_payloads": [
+        "' OR '1'='1' -- ",
+        "\" OR \"1\"=\"1\" -- ",
+        "' UNION SELECT NULL, username, password FROM users --",
+        "' OR SLEEP(5) --",
+        "OR 1=1",
+        "AND 1=2 --",
+        "admin' -- "
+      ],
+      "custom_xss_payloads": [
+        "<script>alert(1)</script>",
+        "\"><img src=x onerror=alert(1)>",
+        "<svg/onload=alert(1)>",
+        "<iframe src=javascript:alert(1)>",
+        "<input autofocus onfocus=alert(1)>"
+      ]
+    },
+    "exposure": {
+      "enabled": true,
+      "sensitive_keywords": [
+        "password",
+        "api_key",
+        "secret",
+        "token",
+        "private_key",
+        "authorization",
+        "access_token",
+        "refresh_token",
+        "jwt_secret",
+        "bearer_token",
+        "db_connection_string",
+        "ssh_private_key",
+        "ssl_key"
+      ],
+      "regex_patterns": [
+        "(?i)(aws_secret_access_key=[A-Za-z0-9\\/+=]{40})",
+        "(?i)(access_token=[A-Za-z0-9\\-_.]{20,})"
+      ]
+    }
+  },
+  "rate": {
+    "enabled": true,
+    "granular_thresholds": {
+      "login": 10,
+      "reset_password": 5,
+      "generic_api": 100
+    }
+  },
+  "cors": {
+    "enabled": true,
+    "test_origins": [
+      "http://localhost:3000",
+      "http://example.com",
+      "https://evil.example",
+      "null",
+      "http://127.0.0.1:8000"
+    ],
+    "header_checks": {
+      "check_allow_origin": true,
+      "check_allow_credentials": true,
+      "check_allow_methods": true,
+      "check_allow_headers": true,
+      "check_max_age": true,
+      "check_expose_headers": true,
+      "expected_vary_origin": true
+    }
+  },
+  "reporting": {
+    "format": "json",
+    "include_evidence": true,
+    "include_remediation": true,
+    "severity_filter": ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+  },
+  "advanced": {
+    "follow_redirects": false,
+    "verify_ssl": true,
+    "proxy": null,
+    "custom_headers": {
+      "X-Custom-Header": "value",
+      "X-Requested-With": "XMLHttpRequest"
+    },
+    "response_signature_checks": true
+  }
+}
