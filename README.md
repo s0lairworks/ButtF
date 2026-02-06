@@ -65,7 +65,7 @@ ButtF is a comprehensive security testing framework designed for penetration tes
 ### Setup
 ```bash
 # Clone or download ButtF
-git clone <repository-url>
+git clone https://github.com/s0lairworks/ButtF/
 cd buttf
 
 # Install dependencies
