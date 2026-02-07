@@ -14,7 +14,10 @@
 ## A: Maybe. Backup first. Cry second. Deploy third.
 
 ## Q: Can I contribute?
-## A: Only if you can survive the memes, respect the acronyms, and don’t judge the name.
+## A: Thanks for wanting to help improve BUTTF! 🖤
+1. Fork the repo
+2. Make your changes
+3. Submit a pull request
 
 ## Q: Is this production-ready?
 ## A: Depends on your definition of production… if production = fun and slightly dangerous, yes ✅
