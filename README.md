@@ -76,7 +76,7 @@ chmod +x buttf.py
 ```
 
 ## Usage
-
+[![BUTTF Demo](https://img.youtube.com/vi/UHHxzczh5WY/0.jpg)](https://www.youtube.com/watch?v=UHHxzczh5WY)
 ### Basic Scan
 ```bash
 python buttf.py -u https://example.com -m all
